@@ -50,7 +50,7 @@ Player_GetRunningStyle(const playerid);
 ```
 This will return you the player's running style.
 
-*Note*: If you've set the player's running style, to activate it, firstly press _W_ then _left alt_ key.
+*Note*: If you've set the player's running style, to activate it, just press W key
 
 ## Testing
 
