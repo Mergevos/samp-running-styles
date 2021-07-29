@@ -47,20 +47,20 @@ static const TIME_UPDATE_ANIMATION  = 300;
 
 enum 
 {
-	RUNNING_STYLE_DEFAULT = 0,
-	RUNNING_STYLE_ARMED1,
-	RUNNING_STYLE_ARMED,
-	RUNNING_STYLE_CIVIL,
-	RUNNING_STYLE_CHAINSHAW,
+    RUNNING_STYLE_DEFAULT = 0,
+    RUNNING_STYLE_ARMED1,
+    RUNNING_STYLE_ARMED,
+    RUNNING_STYLE_CIVIL,
+    RUNNING_STYLE_CHAINSHAW,
     RUNNING_STYLE_FAT,
-	RUNNING_STYLE_FAT_OLD,
+    RUNNING_STYLE_FAT_OLD,
     RUNNING_STYLE_GANG1,
-	RUNNING_STYLE_LEFT,
-	RUNNING_STYLE_OLD,
-	RUNNING_STYLE_PLAYER,
-	RUNNING_STYLE_RIGHT,
-	RUNNING_STYLE_ROCKET,
-	RUNNING_STYLE_BLIND
+    RUNNING_STYLE_LEFT,
+    RUNNING_STYLE_OLD,
+    RUNNING_STYLE_PLAYER,
+    RUNNING_STYLE_RIGHT,
+    RUNNING_STYLE_ROCKET,
+    RUNNING_STYLE_BLIND
 };
 
 // --
@@ -167,7 +167,9 @@ public timer_RunAnimation(playerid)
 {
     timer_Running[playerid] = -1;
     if(style_Running[playerid] <= 0) 
+    {
         return false;
+    }
     new keys, updown, leftright;
     GetPlayerKeys(playerid,keys,updown,leftright);
     if (((!!updown  || !!leftright) ))
@@ -192,8 +194,10 @@ public timer_RunAnimation(playerid)
 stock Player_SetRunningStyle(const playerid, const style) 
 {
     if(style >= sizeof(NameAnimations))
+    {
         return false;
-	style_Running[playerid] = style;
+    }
+    style_Running[playerid] = style;
     return true;
 }
 
