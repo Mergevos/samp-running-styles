@@ -1,40 +1,33 @@
 /** 
-    @ Author: Ben Jackster
-    @ Date: 23th June
-    @ Git: github.com/Mergevos/samp-running-styles
-    @ Copyright (C) 2020
-    @ About:
-    	- This include gives you access to 14 running styles
-    @ Credits: 
-        Me - Forking this and transforming into include
+@ Author: Ben Jackster
+@ Date: 23th June
+@ Git: github.com/Mergevos/samp-running-styles
+@ Copyright (C) 2020
+@ About:
+- This include gives you access to 14 running styles
+@ Credits: 
+Me - Forking this and transforming into include
 **/
 
 #if defined _running_Styles_inc
-    #endinput
+    endinput
 #endif
 
 #include 				< a_samp >
-
-#if !defined HOLDING 
-	#define HOLDING(%0) \
-		((newkeys & (%0)) == (%0))
-#endif
-
 
 // --
 // Credits
 // --
 
 #if !defined RUNNING_STYLES_NO_CREDITS_MSG
-	public OnGameModeInit() 
+    public OnGameModeInit() 
     {
-		#if defined RS_OnGameModeInit
-			RS_OnGameModeInit();
-		#endif
-		print("[1.0.0] Running styles loaded \n\
-			Created by Mergevos");
-		return 1;
-	}
+        #if defined RS_OnGameModeInit
+            RS_OnGameModeInit();
+        #endif
+        print("[1.0.0] Running styles loaded \nCreated by Mergevos");
+        return 1;
+    }
 #endif
 
 // --
@@ -43,7 +36,6 @@
 
 
 static const TIME_UPDATE_ANIMATION  = 300;
-
 
 enum 
 {
@@ -68,8 +60,8 @@ enum
 // --
 
 static 
-	timer_Running[MAX_PLAYERS], 
-	style_Running[MAX_PLAYERS];
+    timer_Running[MAX_PLAYERS], 
+    style_Running[MAX_PLAYERS];
 
 static const indexes_animations[] = {1222, 1223, 1224, 1225, 1226, 1227, 1228, 1229, 1230, 1232, 1233, 1236};
 //indexes animations for checking running
@@ -96,13 +88,12 @@ static const NameAnimations[][] =
 
 public OnPlayerConnect(playerid) 
 {
-
-	#if defined RS_OnPlayerConnect
+    #if defined RS_OnPlayerConnect
         RS_OnPlayerConnect(playerid);
     #endif
-	style_Running[playerid] = RUNNING_STYLE_DEFAULT;
+    style_Running[playerid] = RUNNING_STYLE_DEFAULT;
     timer_Running[playerid] = -1;
-	return 1;
+    return 1;
 }
 // --
 // OnPlayerDisconnect
@@ -110,16 +101,21 @@ public OnPlayerConnect(playerid)
 public OnPlayerDisconnect(playerid, reason) 
 {
 
-	#if defined RS_OnPlayerDisconnect
+    #if defined RS_OnPlayerDisconnect
         RS_OnPlayerDisconnect(playerid, reason);
     #endif
     if(timer_Running[playerid] != -1)
+    {
         KillTimer(timer_Running[playerid]);
-	return 1;
+    }
+    return 1;
 }
 
 public OnPlayerUpdate(playerid)
 {
+    #if defined RS_OnPlayerUpdate
+        RS_OnPlayerUpdate(playerid);
+    #else
     if(Player_GetRunningStyle(playerid) > 0 && timer_Running[playerid] == -1)
     {
         new keys, updown, leftright;
@@ -138,18 +134,12 @@ public OnPlayerUpdate(playerid)
             }
         }        
     }
-    #if defined RS_OnPlayerUpdate
-        return RS_OnPlayerUpdate(playerid);
-    #else
-        return 1;
-    #endif
+    return 1;
 }
 
 // --
 // <summary> Handles timer_RunAnimation timer</summary>
 // --
-
-
 
 forward timer_RunAnimation(playerid);
 public timer_RunAnimation(playerid)
@@ -173,7 +163,7 @@ public timer_RunAnimation(playerid)
             }
         }
     }
-	return ApplyAnimation(playerid,"PED",NameAnimations[style_Running[playerid]-1],4.0,0,0,0,0,1); 
+    return ApplyAnimation(playerid,"PED",NameAnimations[style_Running[playerid]-1],4.0,0,0,0,0,1); 
 }
 
 // --
@@ -197,7 +187,7 @@ stock Player_SetRunningStyle(const playerid, const style)
 
 stock Player_GetRunningStyle(const playerid) 
 {
-	return style_Running[playerid];
+    return style_Running[playerid];
 }
 
 // --
