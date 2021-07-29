@@ -138,23 +138,12 @@ public OnPlayerUpdate(playerid)
             }
         }        
     }
-    #if defined gf_OnPlayerUpdate
-        return gf_OnPlayerUpdate(playerid);
+    #if defined RS_OnPlayerUpdate
+        return RS_OnPlayerUpdate(playerid);
     #else
         return 1;
     #endif
 }
-#if defined _ALS_OnPlayerUpdate
-    #undef OnPlayerUpdate
-#else
-    #define _ALS_OnPlayerUpdate
-#endif
-
-#define OnPlayerUpdate gf_OnPlayerUpdate
-#if defined gf_OnPlayerUpdate
-    forward gf_OnPlayerUpdate(playerid);
-#endif
-
 
 // --
 // <summary> Handles timer_RunAnimation timer</summary>
@@ -252,4 +241,20 @@ stock Player_GetRunningStyle(const playerid)
 #define OnGameModeInit RS_OnGameModeInit
 #if defined RS_OnGameModeInit
     forward RS_OnGameModeInit();
+#endif
+
+
+// --
+// ALS OnPlayerUpdate
+// --
+
+#if defined _ALS_OnPlayerUpdate
+    #undef OnPlayerUpdate
+#else
+    #define _ALS_OnPlayerUpdate
+#endif
+
+#define OnPlayerUpdate RS_OnPlayerUpdate
+#if defined RS_OnPlayerUpdate
+    forward RS_OnPlayerUpdate(playerid);
 #endif
