@@ -10,10 +10,12 @@ Me - Forking this and transforming into include
 **/
 
 #if defined _running_Styles_inc
-    endinput
+    #endinput
 #endif
 
-#include 				< a_samp >
+#define _running_Styles_inc
+
+#include                < a_samp >
 
 // --
 // Credits
@@ -115,7 +117,7 @@ public OnPlayerUpdate(playerid)
 {
     #if defined RS_OnPlayerUpdate
         RS_OnPlayerUpdate(playerid);
-    #else
+    #endif
     if(Player_GetRunningStyle(playerid) > 0 && timer_Running[playerid] == -1)
     {
         new keys, updown, leftright;
