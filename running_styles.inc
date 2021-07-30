@@ -10,10 +10,12 @@ Me - Forking this and transforming into include
 **/
 
 #if defined _running_Styles_inc
-    endinput
+    #endinput
 #endif
 
-#include 				< a_samp >
+#define _running_Styles_inc
+
+#include                < a_samp >
 
 // --
 // Credits
@@ -134,6 +136,7 @@ public OnPlayerUpdate(playerid)
             }
         }        
     }
+    #endif
     return 1;
 }
 
