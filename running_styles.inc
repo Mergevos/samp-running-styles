@@ -1,6 +1,6 @@
 /** 
 @ Author: Ben Jackster
-@ Date: 23th June
+@ Date: 23rd June
 @ Git: github.com/Mergevos/samp-running-styles
 @ Copyright (C) 2020
 @ About:
