@@ -1,6 +1,6 @@
 /** 
 @ Author: Ben Jackster
-@ Date: 23th June
+@ Date: 23rd June
 @ Git: github.com/Mergevos/samp-running-styles
 @ Copyright (C) 2020
 @ About:
@@ -112,7 +112,9 @@ public OnPlayerDisconnect(playerid, reason)
     }
     return 1;
 }
-
+// --
+// OnPlayerUpdate
+// --
 public OnPlayerUpdate(playerid)
 {
     #if defined RS_OnPlayerUpdate
@@ -169,7 +171,7 @@ public timer_RunAnimation(playerid)
 }
 
 // --
-// <summary> Sets player's Running style </summary>
+// <summary> Sets player's running style </summary>
 // --
 
 stock Player_SetRunningStyle(const playerid, const style) 
@@ -208,7 +210,7 @@ stock Player_GetRunningStyle(const playerid)
 
 
 // --
-// ALS OnPlayerDisonnect
+// ALS OnPlayerDisconnect
 // --
 
 #if defined _ALS_OnPlayerDisconnect
