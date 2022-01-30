@@ -5,5 +5,18 @@
 	"output": "test.amx",
 	"dependencies": [
 		"sampctl/samp-stdlib"
-	]
+	],
+	"dev_dependencies": [
+		"pawn-lang/YSI-Includes@5.x",
+		"Y-Less/sscanf"
+	],
+	"runtime": {
+		"version": "0.3.7",
+		"mode": "server",
+		"rcon_password": "password",
+		"port": 7777,
+		"hostname": "SA-MP Server",
+		"maxplayers": 50,
+		"language": ""
+	}
 }
