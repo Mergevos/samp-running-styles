@@ -1,12 +1,10 @@
 /** 
-@ Author: Ben Jackster
+@ Author: Mergevos
 @ Date: 23th June
 @ Git: github.com/Mergevos/samp-running-styles
 @ Copyright (C) 2020
 @ About:
 - This include gives you access to 14 running styles
-@ Credits: 
-Me - Forking this and transforming into include
 **/
 
 #if defined _running_Styles_inc
@@ -15,7 +13,7 @@ Me - Forking this and transforming into include
 
 #define _running_Styles_inc
 
-#include                < a_samp >
+#include <a_samp>
 
 // --
 // Credits
@@ -27,7 +25,7 @@ Me - Forking this and transforming into include
         #if defined RS_OnGameModeInit
             RS_OnGameModeInit();
         #endif
-        print("[1.0.0] Running styles loaded \nCreated by Mergevos");
+        print("[1.0.1] Running styles loaded \nCreated by Mergevos");
         return 1;
     }
 #endif
@@ -39,22 +37,22 @@ Me - Forking this and transforming into include
 
 static const TIME_UPDATE_ANIMATION  = 300;
 
-enum 
+enum e_RUNNING_STYLES
 {
-    RUNNING_STYLE_DEFAULT = 0,
-    RUNNING_STYLE_ARMED1,
-    RUNNING_STYLE_ARMED,
-    RUNNING_STYLE_CIVIL,
-    RUNNING_STYLE_CHAINSHAW,
-    RUNNING_STYLE_FAT,
-    RUNNING_STYLE_FAT_OLD,
-    RUNNING_STYLE_GANG1,
-    RUNNING_STYLE_LEFT,
-    RUNNING_STYLE_OLD,
-    RUNNING_STYLE_PLAYER,
-    RUNNING_STYLE_RIGHT,
-    RUNNING_STYLE_ROCKET,
-    RUNNING_STYLE_BLIND
+    E_RUNNING_STYLE_DEFAULT = 0,
+    E_RUNNING_STYLE_ARMED1,
+    E_RUNNING_STYLE_ARMED,
+    E_RUNNING_STYLE_CIVIL,
+    E_RUNNING_STYLE_CHAINSHAW,
+    E_RUNNING_STYLE_FAT,
+    E_RUNNING_STYLE_FAT_OLD,
+    E_RUNNING_STYLE_GANG1,
+    E_RUNNING_STYLE_LEFT,
+    E_RUNNING_STYLE_OLD,
+    E_RUNNING_STYLE_PLAYER,
+    E_RUNNING_STYLE_RIGHT,
+    E_RUNNING_STYLE_ROCKET,
+    E_RUNNING_STYLE_BLIND
 };
 
 // --
@@ -62,13 +60,13 @@ enum
 // --
 
 static 
-    timer_Running[MAX_PLAYERS], 
-    style_Running[MAX_PLAYERS];
+    Running_gsTimer[MAX_PLAYERS], 
+    e_RUNNING_STYLES: Running_gsStyle[MAX_PLAYERS];
 
-static const indexes_animations[] = {1222, 1223, 1224, 1225, 1226, 1227, 1228, 1229, 1230, 1232, 1233, 1236};
-//indexes animations for checking running
+static const Running_gsAnimIndices[] = {1222, 1223, 1224, 1225, 1226, 1227, 1228, 1229, 1230, 1232, 1233, 1236};
+//indices animations for checking running
 
-static const NameAnimations[][] =
+static const Running_gsAnimations[][] =
 {
     "run_1armed",
     "run_armed",
@@ -93,8 +91,8 @@ public OnPlayerConnect(playerid)
     #if defined RS_OnPlayerConnect
         RS_OnPlayerConnect(playerid);
     #endif
-    style_Running[playerid] = RUNNING_STYLE_DEFAULT;
-    timer_Running[playerid] = -1;
+    Running_gsStyle[playerid] = E_RUNNING_STYLE_DEFAULT;
+    Running_gsTimer[playerid] = -1;
     return 1;
 }
 // --
@@ -106,9 +104,9 @@ public OnPlayerDisconnect(playerid, reason)
     #if defined RS_OnPlayerDisconnect
         RS_OnPlayerDisconnect(playerid, reason);
     #endif
-    if(timer_Running[playerid] != -1)
+    if(Running_gsTimer[playerid] != -1)
     {
-        KillTimer(timer_Running[playerid]);
+        KillTimer(Running_gsTimer[playerid]);
     }
     return 1;
 }
@@ -118,18 +116,18 @@ public OnPlayerUpdate(playerid)
     #if defined RS_OnPlayerUpdate
         RS_OnPlayerUpdate(playerid);
     #endif
-    if(Player_GetRunningStyle(playerid) > 0 && timer_Running[playerid] == -1)
+    if(Player_GetRunningStyle(playerid) > 0 && Running_gsTimer[playerid] == -1)
     {
         new keys, updown, leftright;
         GetPlayerKeys(playerid,keys,updown,leftright);
         if (((!!updown  || !!leftright) ))
         {
             new temp_index_anim = GetPlayerAnimationIndex(playerid);
-            for(new i = 0; i < sizeof indexes_animations; i++)
+            for(new i = 0; i < sizeof Running_gsAnimIndices; i++)
             {
-                if(temp_index_anim == indexes_animations[i])
+                if(temp_index_anim == Running_gsAnimIndices[i])
                 {   
-                    ApplyAnimation(playerid,"PED",NameAnimations[style_Running[playerid]-1],4.1,1,1,1,1,1);
+                    ApplyAnimation(playerid,"PED",Running_gsAnimations[_:Running_gsStyle[playerid]-1],4.1,1,1,1,1,1);
                     timer_RunAnimation(playerid);
                     break;
                 }
@@ -146,40 +144,40 @@ public OnPlayerUpdate(playerid)
 forward timer_RunAnimation(playerid);
 public timer_RunAnimation(playerid)
 {
-    timer_Running[playerid] = -1;
-    if(style_Running[playerid] <= 0) 
+    Running_gsTimer[playerid] = -1;
+    if(Running_gsStyle[playerid] <= E_RUNNING_STYLE_DEFAULT) 
     {
-        return false;
+        return 0;
     }
     new keys, updown, leftright;
     GetPlayerKeys(playerid,keys,updown,leftright);
     if (((!!updown  || !!leftright) ))
     {
         new temp_index_anim = GetPlayerAnimationIndex(playerid);
-        for(new i = 0; i < sizeof indexes_animations; i++)
+        for(new i = 0; i < sizeof Running_gsAnimIndices; i++)
         {
-            if(temp_index_anim == indexes_animations[i])
+            if(temp_index_anim == Running_gsAnimIndices[i])
             {   
-                timer_Running[playerid] = SetTimerEx("timer_RunAnimation",TIME_UPDATE_ANIMATION,false,"d",playerid);
-                return true;
+                Running_gsTimer[playerid] = SetTimerEx("timer_RunAnimation",TIME_UPDATE_ANIMATION,false,"d",playerid);
+                return 1;
             }
         }
     }
-    return ApplyAnimation(playerid,"PED",NameAnimations[style_Running[playerid]-1],4.0,0,0,0,0,1); 
+    return ApplyAnimation(playerid,"PED",Running_gsAnimations[_:Running_gsStyle[playerid]-1],4.0,0,0,0,0,1); 
 }
 
 // --
 // <summary> Sets player's Running style </summary>
 // --
 
-stock Player_SetRunningStyle(const playerid, const style) 
+stock Player_SetRunningStyle(playerid, e_RUNNING_STYLES: style) 
 {
-    if(style >= sizeof(NameAnimations))
+    if(_:style >= sizeof(Running_gsAnimations))
     {
-        return false;
+        return 0;
     }
-    style_Running[playerid] = style;
-    return true;
+    Running_gsStyle[playerid] = style;
+    return 1;
 }
 
 // --
@@ -187,9 +185,9 @@ stock Player_SetRunningStyle(const playerid, const style)
 // --
 
 
-stock Player_GetRunningStyle(const playerid) 
+stock Player_GetRunningStyle(playerid) 
 {
-    return style_Running[playerid];
+    return Running_gsStyle[playerid];
 }
 
 // --
